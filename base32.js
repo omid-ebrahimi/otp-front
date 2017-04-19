@@ -1,3 +1,5 @@
+'use strict';
+
 var base32 = require('base32.js');
 
 function bytes2str(bytes) {
@@ -12,10 +14,10 @@ function str2bytes(str) {
   return bytes;
 }
 
-module.exports.encode = function(str) {
+exports.encode = function(str) {
   return base32.encode(str2bytes(str));
 }
-module.exports.decode = function(str) {
+exports.decode = function(str) {
   var buf = base32.decode(str);
   return bytes2str(buf);
 }
