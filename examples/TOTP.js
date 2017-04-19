@@ -1,6 +1,6 @@
 
 var notp = require('../index'),
-    t2 = require('thirty-two'),
+    t2 = require('../base32'),
     K = '12345678901234567890',
 	b32 = t2.encode(K);
 

@@ -1,4 +1,4 @@
-var notp = require('..');
+var botp = require('..');
 var assert = require('assert');
 
 /*
@@ -51,16 +51,16 @@ exports.testHOTP = function() {
 	var HOTP = ['755224', '287082','359152', '969429', '338314', '254676', '287922', '162583', '399871', '520489'];
 
 	// make sure we can not pass in opt
-	notp.hotp.verify('WILL NOT PASS', key);
+	botp.hotp.verify('WILL NOT PASS', key);
 
 	// counterheck for failure
 	opt.counter = 0;
-	assert.ok(!notp.hotp.verify('WILL NOT PASS', key, opt), 'Should not pass');
+	assert.ok(!botp.hotp.verify('WILL NOT PASS', key, opt), 'Should not pass');
 
 	// counterheck for passes
 	for(i=0;i<HOTP.length;i++) {
 		opt.counter = i;
-		var res = notp.hotp.verify(HOTP[i], key, opt);
+		var res = botp.hotp.verify(HOTP[i], key, opt);
 
 		assert.ok(res, 'Should pass');
 		assert.equal(res.delta, 0, 'Should be in sync');
@@ -80,38 +80,38 @@ exports.testTOTtoken = function() {
 	};
 
 	// make sure we can not pass in opt
-	notp.totp.verify(token, key);
+	botp.totp.verify(token, key);
 
 	// counterheck for failure
 	opt.time = 0;
 	var token = 'windowILLNOTtokenASS';
-	assert.ok(!notp.totp.verify(token, key, opt), 'Should not pass');
+	assert.ok(!botp.totp.verify(token, key, opt), 'Should not pass');
 
 	// counterheck for test vector at 59s
 	opt._t = 59*1000;
 	var token = '287082';
-	var res = notp.totp.verify(token, key, opt);
+	var res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 
 	// counterheck for test vector at 1234567890
 	opt._t = 1234567890*1000;
 	var token = '005924';
-	var res = notp.totp.verify(token, key, opt);
+	var res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 
 	// counterheck for test vector at 1111111109
 	opt._t = 1111111109*1000;
 	var token = '081804';
-	var res = notp.totp.verify(token, key, opt);
+	var res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 
 	// counterheck for test vector at 2000000000
 	opt._t = 2000000000*1000;
 	var token = '279037';
-	var res = notp.totp.verify(token, key, opt);
+	var res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 };
@@ -133,17 +133,17 @@ exports.testHOTPOutOfSync = function() {
 
 	// counterheck that the test should fail for window < 8
 	opt.window = 7;
-	assert.ok(!notp.hotp.verify(token, key, opt), 'Should not pass for value of window < 8');
+	assert.ok(!botp.hotp.verify(token, key, opt), 'Should not pass for value of window < 8');
 
 	// counterheck that the test should pass for window >= 9
 	opt.window = 8;
-	assert.ok(notp.hotp.verify(token, key, opt), 'Should pass for value of window >= 9');
+	assert.ok(botp.hotp.verify(token, key, opt), 'Should pass for value of window >= 9');
 
     // counterheck that test should pass for negative counter values
     token = '755224';
     opt.counter = 7
     opt.window = 8;
-    assert.ok(notp.hotp.verify(token, key, opt), 'Should pass for negative counter values');
+    assert.ok(botp.hotp.verify(token, key, opt), 'Should pass for negative counter values');
 };
 
 
@@ -162,11 +162,11 @@ exports.testTOTPOutOfSync = function() {
 
 	// counterheck that the test should fail for window < 2
 	opt.window = 2;
-	assert.ok(!notp.totp.verify(token, key, opt), 'Should not pass for value of window < 3');
+	assert.ok(!botp.totp.verify(token, key, opt), 'Should not pass for value of window < 3');
 
 	// counterheck that the test should pass for window >= 3
 	opt.window = 3;
-	assert.ok(notp.totp.verify(token, key, opt), 'Should pass for value of window >= 3');
+	assert.ok(botp.totp.verify(token, key, opt), 'Should pass for value of window >= 3');
 };
 
 
@@ -179,12 +179,12 @@ exports.hotp_gen = function() {
 	var HOTP = ['755224', '287082','359152', '969429', '338314', '254676', '287922', '162583', '399871', '520489'];
 
 	// make sure we can not pass in opt
-	notp.hotp.gen(key);
+	botp.hotp.gen(key);
 
 	// counterheck for passes
 	for(i=0;i<HOTP.length;i++) {
 		opt.counter = i;
-		assert.equal(notp.hotp.gen(key, opt), HOTP[i], 'HOTP value should be correct');
+		assert.equal(botp.hotp.gen(key, opt), HOTP[i], 'HOTP value should be correct');
 	}
 };
 
@@ -196,22 +196,22 @@ exports.totp_gen = function() {
 	};
 
 	// make sure we can not pass in opt
-	notp.totp.gen(key);
+	botp.totp.gen(key);
 
 	// counterheck for test vector at 59s
 	opt._t = 59*1000;
-	assert.equal(notp.totp.gen(key, opt), '287082', 'TOTtoken values should match');
+	assert.equal(botp.totp.gen(key, opt), '287082', 'TOTtoken values should match');
 
 	// counterheck for test vector at 1234567890
 	opt._t = 1234567890*1000;
-	assert.equal(notp.totp.gen(key, opt), '005924', 'TOTtoken values should match');
+	assert.equal(botp.totp.gen(key, opt), '005924', 'TOTtoken values should match');
 
 	// counterheck for test vector at 1111111109
 	opt._t = 1111111109*1000;
-	assert.equal(notp.totp.gen(key, opt), '081804', 'TOTtoken values should match');
+	assert.equal(botp.totp.gen(key, opt), '081804', 'TOTtoken values should match');
 
 	// counterheck for test vector at 2000000000
 	opt._t = 2000000000*1000;
-	assert.equal(notp.totp.gen(key, opt), '279037', 'TOTtoken values should match');
+	assert.equal(botp.totp.gen(key, opt), '279037', 'TOTtoken values should match');
 };
 
