@@ -1,21 +1,24 @@
 'use strict';
 
-var CryptoJS = require('crypto-js');
+var WordArray = require('crypto-js/core').lib.WordArray;
+var HmacSHA1 = require('crypto-js/hmac-sha1');
 
 /**
  * convert an integer to a byte array
  * @param {Integer} num
  * @return {Array} bytes
  */
-function intToBytes(num) {
+function intToWords(num) {
 	var bytes = [];
-
-	for(var i=7 ; i>=0 ; --i) {
+	for (var i = 7; i >= 0; --i) {
 		bytes[i] = num & (255);
 		num = num >> 8;
 	}
-
-	return bytes;
+	var words = [];
+	for (var i = 0; i < bytes.length; i++) {
+		words[i >>> 2] |= bytes[i] << (24 - (i % 4) * 8);
+	}
+	return words;
 }
 
 /**
@@ -25,7 +28,7 @@ function intToBytes(num) {
  */
 function hexToBytes(hex) {
 	var bytes = [];
-	for(var c = 0, C = hex.length; c < C; c += 2) {
+	for (var c = 0, C = hex.length; c < C; c += 2) {
 		bytes.push(parseInt(hex.substr(c, 2), 16));
 	}
 	return bytes;
@@ -56,10 +59,9 @@ hotp.gen = function(key, opt) {
 	var p = 6;
 
 	// Create the byte array
-	var b = new Buffer(intToBytes(counter));
-
+	var b = intToWords(counter);
 	// Update the HMAC with the byte array
-	var digest = CryptoJS.HmacSHA1(CryptoJS.lib.WordArray.create(b), key).toString();
+	var digest = HmacSHA1(WordArray.create(b), key).toString();
 
 	// Get byte array
 	var h = hexToBytes(digest);
@@ -68,12 +70,12 @@ hotp.gen = function(key, opt) {
 	var offset = h[19] & 0xf;
 	var v = (h[offset] & 0x7f) << 24 |
 		(h[offset + 1] & 0xff) << 16 |
-		(h[offset + 2] & 0xff) << 8  |
+		(h[offset + 2] & 0xff) << 8 |
 		(h[offset + 3] & 0xff);
 
 	v = (v % 1000000) + '';
 
-	return Array(7-v.length).join('0') + v;
+	return Array(7 - v.length).join('0') + v;
 };
 
 /**
@@ -112,12 +114,14 @@ hotp.verify = function(token, key, opt) {
 
 	// Now loop through from C to C + W to determine if there is
 	// a correct code
-	for(var i = counter - win; i <=  counter + win; ++i) {
+	for (var i = counter - win; i <= counter + win; ++i) {
 		opt.counter = i;
-		if(this.gen(key, opt) === token) {
+		if (this.gen(key, opt) === token) {
 			// We have found a matching code, trigger callback
 			// and pass offset
-			return { delta: i - counter };
+			return {
+				delta: i - counter
+			};
 		}
 	}
 
@@ -150,10 +154,7 @@ totp.gen = function(key, opt) {
 	var _t = Date.now();
 
 	// Time has been overwritten.
-	if(opt._t) {
-		if(process.env.NODE_ENV != 'test') {
-			throw new Error('cannot overwrite time in non-test environment!');
-		}
+	if (opt._t) {
 		_t = opt._t;
 	}
 
@@ -201,10 +202,7 @@ totp.verify = function(token, key, opt) {
 	var _t = Date.now();
 
 	// Time has been overwritten.
-	if(opt._t) {
-		if(process.env.NODE_ENV != 'test') {
-			throw new Error('cannot overwrite time in non-test environment!');
-		}
+	if (opt._t) {
 		_t = opt._t;
 	}
 
