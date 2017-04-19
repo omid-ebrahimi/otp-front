@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/d-band/botp.svg)](https://travis-ci.org/d-band/botp)
-
 # Browser One Time Password library
+
+[![Build Status](https://travis-ci.org/d-band/botp.svg)](https://travis-ci.org/d-band/botp)
 
 > Fork from [notp](https://github.com/guyht/notp) for support browser.
 
@@ -107,5 +107,3 @@ Return a time based one time password
 **time**
 > The time step of the counter. This must be the same for every request and is used to calculate C.
 > Default - 30
-
-
