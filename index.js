@@ -1,6 +1,6 @@
 'use strict';
 
-var crypto = require('crypto');
+var CryptoJS = require("crypto-js");
 
 /**
  * convert an integer to a byte array
@@ -58,10 +58,8 @@ hotp.gen = function(key, opt) {
 	// Create the byte array
 	var b = new Buffer(intToBytes(counter));
 
-	var hmac = crypto.createHmac('sha1', new Buffer(key));
-
 	// Update the HMAC with the byte array
-	var digest = hmac.update(b).digest('hex');
+	var digest = CryptoJS.HmacSHA1(CryptoJS.lib.WordArray.create(b), key).toString();
 
 	// Get byte array
 	var h = hexToBytes(digest);
@@ -109,12 +107,12 @@ hotp.gen = function(key, opt) {
  */
 hotp.verify = function(token, key, opt) {
 	opt = opt || {};
-	var window = opt.window || 50;
+	var win = opt.window || 50;
 	var counter = opt.counter || 0;
 
 	// Now loop through from C to C + W to determine if there is
 	// a correct code
-	for(var i = counter - window; i <=  counter + window; ++i) {
+	for(var i = counter - win; i <=  counter + win; ++i) {
 		opt.counter = i;
 		if(this.gen(key, opt) === token) {
 			// We have found a matching code, trigger callback

@@ -1,12 +1,12 @@
 {
   "author": "Guy Halford-Thompson <guy@guy.ht> (http://guy.ht)",
-  "name": "notp",
+  "name": "botp",
   "description": "Node One Time Password library, supports HOTP, TOTP and works with Google Authenticator",
   "version": "2.0.3",
-  "homepage": "https://github.com/guyht/notp",
+  "homepage": "https://github.com/d-band/botp",
   "repository": {
     "type": "git",
-    "url": "git://github.com/guyht/notp.git"
+    "url": "git://github.com/d-band/botp.git"
   },
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,11 @@
   "engines": {
     "node": "> v0.6.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  },
   "devDependencies": {
-    "mocha": "~1.18.2",
-    "thirty-two": "0.0.2"
+    "mocha": "^3.2.0",
+    "thirty-two": "^1.0.2"
   }
 }
