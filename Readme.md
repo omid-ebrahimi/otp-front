@@ -1,18 +1,19 @@
-[![Build Status](https://travis-ci.org/guyht/notp.svg)](https://travis-ci.org/guyht/notp)
+[![Build Status](https://travis-ci.org/d-band/botp.svg)](https://travis-ci.org/d-band/botp)
 
-# Node One Time Password library
- Simple to use, fast, and with zero dependencies.  The Node One Time Password library is fully compliant with [HOTP](http://tools.ietf.org/html/rfc4226) (counter based one time passwords) and [TOTP](http://tools.ietf.org/html/rfc6238) (time based one time passwords).  It can be used in conjunction with the [Google Authenticator](https://github.com/google/google-authenticator/) which has free apps for iOS, Android and BlackBerry.
+# Browser One Time Password library
+
+> Fork from [notp](https://github.com/guyht/notp) for support browser.
 
 # Installation
 
 ```
-npm install notp
+npm install botp
 ```
 
 # Usage
 
 ```javascript
-var notp = require('notp');
+var botp = require('botp');
 
 //.... some initial login code, that receives the user details and TOTP / HOTP token
 
@@ -20,7 +21,7 @@ var key = 'secret key for user... could be stored in DB';
 var token = 'user supplied one time use token';
 
 // Check TOTP is correct (HOTP if hotp pass type)
-var login = notp.totp.verify(token, key);
+var login = botp.totp.verify(token, key);
 
 // invalid token if login is null
 if (!login) {
@@ -107,29 +108,4 @@ Return a time based one time password
 > The time step of the counter. This must be the same for every request and is used to calculate C.
 > Default - 30
 
-# Migrating from 1.x to 2.x
-
-## Removed
-The `encBase32` and `decBase32` methods have been removed. If you wish to encode/decode base32 you should install a module to do so. We recommend the `thirty-two` npm module.
-
-## Changed
-
-All of the APIs have been changed to return values directly instead of using callbacks. This reflects the fact that the functions are actually synchronous and perform no I/O.
-
-Some of the required arguments to the functions have also been removed from the `args` parameter and are passed as separate function parameters. See the above API docs for details.
-
-* `notp.checkHOTP(args, err, cb)` -> `notp.hotp.verify(token, key, opt)`
-* `notp.checkTOTP(args, err, cb)` -> `notp.totp.verify(token, key, opt)`
-* `notp.getHOTP(args, err, cb)` -> `notp.gotp.gen(key, opt)`
-* `notp.getTOTP(args, err, cb)` -> `notp.totp.gen(key, opt)`
-
-## Args
-
-The argument names have also changed to better describe the purpose of the argument.
-
-* `K` -> no longer in args/opt but passed directly as a function argument
-* `P` -> no longer in args/opt but passed directly as a function argument
-* `W` -> `window`
-* `C` -> `counter`
-* `T` -> `time`
 
