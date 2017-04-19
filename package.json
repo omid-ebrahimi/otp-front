@@ -2,7 +2,7 @@
   "author": "d-band",
   "name": "botp",
   "description": "Browser One Time Password library, supports HOTP, TOTP and works with Google Authenticator",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "homepage": "https://github.com/d-band/botp",
   "repository": {
     "type": "git",
