@@ -1,12 +1,12 @@
 {
-  "author": "d-band",
-  "name": "botp",
-  "description": "Browser One Time Password library, supports HOTP, TOTP and works with Google Authenticator",
-  "version": "2.3.2",
-  "homepage": "https://github.com/d-band/botp",
+  "author": "Omid Ebrahimi <ebrahimi.omid69@gmail.com> (https://github.com/omid69)",
+  "name": "otp-front",
+  "description": "Front-End One Time Password library, supports HOTP, TOTP and works with Google Authenticator. Can be used for web and react-native applications.",
+  "version": "2.3.3",
+  "homepage": "https://github.com/omid69/botp",
   "repository": {
     "type": "git",
-    "url": "git://github.com/d-band/botp.git"
+    "url": "https://github.com/omid69/botp.git"
   },
   "main": "index.js",
   "scripts": {
