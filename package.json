@@ -3,8 +3,8 @@
   "name": "otp-front",
   "description": "Front-End One Time Password library, supports HOTP, TOTP and works with Google Authenticator. Can be used for web and react-native applications.",
   "version": "2.3.3",
-  "homepage": "https://github.com/omid69/otp-front",
-  "repository": "https://github.com/omid69/otp-front.git",
+  "homepage": "https://github.com/omid-ebrahimi/otp-front",
+  "repository": "https://github.com/omid-ebrahimi/otp-front.git",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha"
