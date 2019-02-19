@@ -1,5 +1,5 @@
 {
-  "author": "Omid Ebrahimi <ebrahimi.omid69@gmail.com> (https://github.com/omid69)",
+  "author": "Omid Ebrahimi <ebrahimi.omid69@gmail.com> (https://github.com/omid-ebrahimi)",
   "name": "otp-front",
   "description": "Front-End One Time Password library, supports HOTP, TOTP and works with Google Authenticator. Can be used for web and react-native applications.",
   "version": "2.3.3",
