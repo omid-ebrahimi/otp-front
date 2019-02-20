@@ -2,18 +2,22 @@
 
 [![Build Status](https://travis-ci.org/d-band/botp.svg)](https://travis-ci.org/d-band/botp)
 
-> Fork from [notp](https://github.com/guyht/notp) for support browser.
+> Fork from [botp](https://github.com/d-band/botp) for support browser and react-native.
 
 # Installation
 
 ```
 npm install botp
+
+or
+
+yarn add otp-front
 ```
 
 # Usage
 
 ```javascript
-var botp = require('botp');
+var botp = require('otp-front');
 
 //.... some initial login code, that receives the user details and TOTP / HOTP token
 
