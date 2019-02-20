@@ -7,7 +7,7 @@
 # Installation
 
 ```
-npm install botp
+npm install otp-front
 
 or
 
