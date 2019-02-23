@@ -41,7 +41,7 @@ console.log('Token valid, sync value is %s', login.delta);
 [Google authenticator](https://github.com/google/google-authenticator/) requires that keys be base32 encoded before being used. This includes manual entry into the app as well as preparing a QR code URI.
 
 ```javascript
-var base32 = require('botp/base32');
+var base32 = require('otp-front/base32');
 
 var key = 'secret key for the user';
 
