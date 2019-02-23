@@ -17,15 +17,15 @@ yarn add otp-front
 # Usage
 
 ```javascript
-var botp = require('otp-front');
+var otpFront = require('otp-front');
 
 //.... some initial login code, that receives the user details and TOTP / HOTP token
 
-var key = 'secret key for user... could be stored in DB';
+var key = 'secret key (ASCII) for user. could be stored in DB';
 var token = 'user supplied one time use token';
 
 // Check TOTP is correct (HOTP if hotp pass type)
-var login = botp.totp.verify(token, key);
+var login = otpFront.totp.verify(token, key);
 
 // invalid token if login is null
 if (!login) {
