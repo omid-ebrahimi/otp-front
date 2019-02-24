@@ -1,7 +1,6 @@
-
-var notp = require('../index'),
-    t2 = require('../base32'),
-    K = '12345678901234567890',
+const notp = require('../index'),
+	t2 = require('../base32'),
+	K = '12345678901234567890',
 	b32 = t2.encode(K);
 
 console.log('Getting current counter value for K = 12345678901234567890');

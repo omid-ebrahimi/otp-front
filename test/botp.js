@@ -1,5 +1,5 @@
-var botp = require('..');
-var assert = require('assert');
+const botp = require('..');
+const assert = require('assert');
 
 /*
  * Test HOTtoken.  Uses test values from RFcounter 4226
@@ -44,11 +44,11 @@ var assert = require('assert');
  * see http://tools.ietf.org/html/rfc4226
  */
 exports.testHOTP = function() {
-	var key = '12345678901234567890';
-	var opt = {
-		window : 0,
+	const key = '12345678901234567890';
+	const opt = {
+		window: 0,
 	};
-	var HOTP = ['755224', '287082','359152', '969429', '338314', '254676', '287922', '162583', '399871', '520489'];
+	const HOTP = ['755224', '287082', '359152', '969429', '338314', '254676', '287922', '162583', '399871', '520489'];
 
 	// make sure we can not pass in opt
 	botp.hotp.verify('WILL NOT PASS', key);
@@ -60,7 +60,7 @@ exports.testHOTP = function() {
 	// counterheck for passes
 	for(i=0;i<HOTP.length;i++) {
 		opt.counter = i;
-		var res = botp.hotp.verify(HOTP[i], key, opt);
+		const res = botp.hotp.verify(HOTP[i], key, opt);
 
 		assert.ok(res, 'Should pass');
 		assert.equal(res.delta, 0, 'Should be in sync');
@@ -74,9 +74,10 @@ exports.testHOTP = function() {
  * see http://tools.ietf.org/id/draft-mraihi-totp-timebased-06.txt
  */
 exports.testTOTtoken = function() {
-	var key = '12345678901234567890';
-	var opt = {
-		window : 0,
+	let token;
+	const key = '12345678901234567890';
+	const opt = {
+		window: 0,
 	};
 
 	// make sure we can not pass in opt
@@ -84,34 +85,34 @@ exports.testTOTtoken = function() {
 
 	// counterheck for failure
 	opt.time = 0;
-	var token = 'windowILLNOTtokenASS';
+	token = 'windowILLNOTtokenASS';
 	assert.ok(!botp.totp.verify(token, key, opt), 'Should not pass');
 
 	// counterheck for test vector at 59s
 	opt._t = 59*1000;
-	var token = '287082';
-	var res = botp.totp.verify(token, key, opt);
+	token = '287082';
+	let res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 
 	// counterheck for test vector at 1234567890
 	opt._t = 1234567890*1000;
-	var token = '005924';
-	var res = botp.totp.verify(token, key, opt);
+	token = '005924';
+	res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 
 	// counterheck for test vector at 1111111109
 	opt._t = 1111111109*1000;
-	var token = '081804';
-	var res = botp.totp.verify(token, key, opt);
+	token = '081804';
+	res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 
 	// counterheck for test vector at 2000000000
 	opt._t = 2000000000*1000;
-	var token = '279037';
-	var res = botp.totp.verify(token, key, opt);
+	token = '279037';
+	res = botp.totp.verify(token, key, opt);
 	assert.ok(res, 'Should pass');
 	assert.equal(res.delta, 0, 'Should be in sync');
 };
@@ -124,11 +125,11 @@ exports.testTOTtoken = function() {
  */
 exports.testHOTPOutOfSync = function() {
 
-	var key = '12345678901234567890';
-	var token = '520489';
+	const key = '12345678901234567890';
+	let token = '520489';
 
-	var opt = {
-		counter : 1
+	const opt = {
+		counter: 1
 	};
 
 	// counterheck that the test should fail for window < 8
@@ -141,7 +142,7 @@ exports.testHOTPOutOfSync = function() {
 
     // counterheck that test should pass for negative counter values
     token = '755224';
-    opt.counter = 7
+    opt.counter = 7;
     opt.window = 8;
     assert.ok(botp.hotp.verify(token, key, opt), 'Should pass for negative counter values');
 };
@@ -153,11 +154,11 @@ exports.testHOTPOutOfSync = function() {
  */
 exports.testTOTPOutOfSync = function() {
 
-	var key = '12345678901234567890';
-	var token = '279037';
+	const key = '12345678901234567890';
+	const token = '279037';
 
-	var opt = {
-		_t : 1999999909*1000
+	const opt = {
+		_t: 1999999909 * 1000
 	};
 
 	// counterheck that the test should fail for window < 2
@@ -171,12 +172,12 @@ exports.testTOTPOutOfSync = function() {
 
 
 exports.hotp_gen = function() {
-	var key = '12345678901234567890';
-	var opt = {
-		window : 0,
+	const key = '12345678901234567890';
+	const opt = {
+		window: 0,
 	};
 
-	var HOTP = ['755224', '287082','359152', '969429', '338314', '254676', '287922', '162583', '399871', '520489'];
+	const HOTP = ['755224', '287082', '359152', '969429', '338314', '254676', '287922', '162583', '399871', '520489'];
 
 	// make sure we can not pass in opt
 	botp.hotp.gen(key);
@@ -190,9 +191,9 @@ exports.hotp_gen = function() {
 
 
 exports.totp_gen = function() {
-	var key = '12345678901234567890';
-	var opt = {
-		window : 0,
+	const key = '12345678901234567890';
+	const opt = {
+		window: 0,
 	};
 
 	// make sure we can not pass in opt

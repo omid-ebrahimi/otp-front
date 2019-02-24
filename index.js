@@ -1,7 +1,7 @@
 'use strict';
 
-var WordArray = require('crypto-js/core').lib.WordArray;
-var HmacSHA1 = require('crypto-js/hmac-sha1');
+const WordArray = require('crypto-js/core').lib.WordArray;
+const HmacSHA1 = require('crypto-js/hmac-sha1');
 
 /**
  * convert an integer to a byte array
@@ -9,13 +9,13 @@ var HmacSHA1 = require('crypto-js/hmac-sha1');
  * @return {Array} bytes
  */
 function intToWords(num) {
-	var bytes = [];
-	for (var i = 7; i >= 0; --i) {
+	const bytes = [];
+	for (let i = 7; i >= 0; --i) {
 		bytes[i] = num & (255);
 		num = num >> 8;
 	}
-	var words = [];
-	for (var i = 0; i < bytes.length; i++) {
+	const words = [];
+	for (let i = 0; i < bytes.length; i++) {
 		words[i >>> 2] |= bytes[i] << (24 - (i % 4) * 8);
 	}
 	return words;
@@ -27,14 +27,16 @@ function intToWords(num) {
  * @return {Array} bytes
  */
 function hexToBytes(hex) {
-	var bytes = [];
-	for (var c = 0, C = hex.length; c < C; c += 2) {
+	const bytes = [];
+	let c = 0;
+	const C = hex.length;
+	for (; c < C; c += 2) {
 		bytes.push(parseInt(hex.substr(c, 2), 16));
 	}
 	return bytes;
 }
 
-var hotp = {};
+const hotp = {};
 
 /**
  * Generate a counter based One Time Password
@@ -54,21 +56,21 @@ var hotp = {};
 hotp.gen = function(key, opt) {
 	key = key || '';
 	opt = opt || {};
-	var counter = opt.counter || 0;
+	const counter = opt.counter || 0;
 
-	var p = 6;
+	// const p = 6;
 
 	// Create the byte array
-	var b = intToWords(counter);
+	const b = intToWords(counter);
 	// Update the HMAC with the byte array
-	var digest = HmacSHA1(WordArray.create(b), key).toString();
+	const digest = HmacSHA1(WordArray.create(b), key).toString();
 
 	// Get byte array
-	var h = hexToBytes(digest);
+	const h = hexToBytes(digest);
 
 	// Truncate
-	var offset = h[19] & 0xf;
-	var v = (h[offset] & 0x7f) << 24 |
+	const offset = h[19] & 0xf;
+	let v = (h[offset] & 0x7f) << 24 |
 		(h[offset + 1] & 0xff) << 16 |
 		(h[offset + 2] & 0xff) << 8 |
 		(h[offset + 3] & 0xff);
@@ -109,12 +111,12 @@ hotp.gen = function(key, opt) {
  */
 hotp.verify = function(token, key, opt) {
 	opt = opt || {};
-	var win = opt.window || 50;
-	var counter = opt.counter || 0;
+	const win = opt.window || 50;
+	const counter = opt.counter || 0;
 
 	// Now loop through from C to C + W to determine if there is
 	// a correct code
-	for (var i = counter - win; i <= counter + win; ++i) {
+	for (let i = counter - win; i <= counter + win; ++i) {
 		opt.counter = i;
 		if (this.gen(key, opt) === token) {
 			// We have found a matching code, trigger callback
@@ -129,7 +131,7 @@ hotp.verify = function(token, key, opt) {
 	return null;
 };
 
-var totp = {};
+const totp = {};
 
 /**
  * Generate a time based One Time Password
@@ -150,8 +152,8 @@ var totp = {};
  */
 totp.gen = function(key, opt) {
 	opt = opt || {};
-	var time = opt.time || 30;
-	var _t = Date.now();
+	const time = opt.time || 30;
+	let _t = Date.now();
 
 	// Time has been overwritten.
 	if (opt._t) {
@@ -198,8 +200,8 @@ totp.gen = function(key, opt) {
  */
 totp.verify = function(token, key, opt) {
 	opt = opt || {};
-	var time = opt.time || 30;
-	var _t = Date.now();
+	const time = opt.time || 30;
+	let _t = Date.now();
 
 	// Time has been overwritten.
 	if (opt._t) {
